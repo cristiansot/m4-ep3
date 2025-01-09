@@ -18,7 +18,7 @@ const AppNavbar = ({ onSectionChange }) => {
           <img
             src={logotipo}  
             alt="Mi Clínica"
-            style={{ height: 60 }}
+            style={{ height: 80 }}
           />
         </Navbar.Brand>
         <Nav className="text-center mt-4 mb-4">
