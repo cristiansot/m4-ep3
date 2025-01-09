@@ -7,12 +7,12 @@ const DoctorCard = ({ doctor }) => {
         src={doctor.imagen}
         alt={`Foto de ${doctor.nombre}`}
         className="doctor-image"
-        style={{ height: 400, borderRadius: 30 }}
+        style={{ height: 580, borderRadius: 30 }}
       />
       <div className="doctor-info">
-        <h2 className="doctor-name">{doctor.nombre}</h2>
+        <h2 className="doctor-name" style={{ marginTop: 20, color: 'GrayText' }}>{doctor.nombre}</h2>
         <p className="doctor-specialty">Especialidad: {doctor.especialidad}</p>
-        <p className="doctor-experience">
+        <p className="doctor-experience" style={{ marginTop: -8 }}>
           Años de experiencia: {doctor.años_experiencia}
         </p>
       </div>
