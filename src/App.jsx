@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import Navbar from "./components/Navbar";
 import DoctorCard from "./components/DoctorCard";
 import AppointmentForm from "./components/AppointmentForm";
-import ServiceList from "./components/ServiceList";  
+import ServiceList from "./components/ServiceList";
+import FiltroEspecialidad from "./components/FiltroEspecialidad"; 
 import teamData from "./assets/equipo.json";
 import CarouselExample from "./components/Carousel";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -11,6 +12,7 @@ import './App.css';
 const App = () => {
   const [currentSection, setCurrentSection] = useState("Home");
   const [selectedService, setSelectedService] = useState(""); 
+  const [selectedEspecialidad, setSelectedEspecialidad] = useState(""); 
 
   const handleSectionChange = (section) => {
     setCurrentSection(section);
@@ -31,6 +33,12 @@ const App = () => {
     setSelectedService(service);
     console.log("Servicio seleccionado:", service);
   };
+
+  const filteredDoctors = selectedEspecialidad
+    ? resolvedTeamData.filter((doctor) => doctor.especialidad === selectedEspecialidad)
+    : resolvedTeamData;
+
+  const especialidades = [...new Set(resolvedTeamData.map((doctor) => doctor.especialidad))];
 
   return (
     <div className="App">
@@ -54,18 +62,24 @@ const App = () => {
       )}
 
       {currentSection === "Equipo Médico" && (
-        <div className="container d-flex flex-column align-items-center">
-          <h2 className="text-center my-4">Equipo Médico</h2>
-          <div className="doctor-list w-100">
-            <div className="row justify-content-center">
-              {resolvedTeamData.map((doctor, index) => (
-                <div key={index} className="col-12 col-md-6 col-sm-8 mb-4 d-flex justify-content-center">
-                  <DoctorCard doctor={doctor} />
-                </div>
-              ))}
+        <>
+          <FiltroEspecialidad 
+            especialidades={especialidades}  
+            onEspecialidadSelect={setSelectedEspecialidad} 
+          />
+          <div className="container d-flex flex-column align-items-center">
+            <h2 className="text-center my-4">Equipo Médico</h2>
+            <div className="doctor-list w-100">
+              <div className="row justify-content-center">
+                {filteredDoctors.map((doctor, index) => (
+                  <div key={index} className="col-12 col-md-6 col-sm-8 mb-4 d-flex justify-content-center">
+                    <DoctorCard doctor={doctor} />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        </>
       )}
 
       {currentSection === "Citas" && (
