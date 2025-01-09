@@ -1,72 +1,54 @@
-import React, { useEffect } from 'react';
+import React, { useState } from "react";
+import Navbar from "./components/Navbar";
+import DoctorCard from "./components/DoctorCard";
+import AppointmentForm from "./components/AppointmentForm";
+import teamData from "./assets/equipo.json";
 import './App.css';
-import DoctorCard from './components/DoctorCard';
-import ServiceList from './components/ServiceList';
-import AppointmentForm from './components/AppointmentForm';
-import teamData from './assets/equipo.json';
-import { AppProvider, useAppContext } from './components/AppContext';
 
 const App = () => {
-  const {
-    resolvedTeamData,
-    setResolvedTeamData,
-    medicalServices,
-    handleServiceSelect,
-    appointments,
-    addAppointment,
-    resolveImagePaths,
-  } = useAppContext();
+  const [currentSection, setCurrentSection] = useState("Home");
 
-  useEffect(() => {
-    setResolvedTeamData(resolveImagePaths(teamData));
-  }, [resolveImagePaths, setResolvedTeamData]);
+  const handleSectionChange = (section) => {
+    setCurrentSection(section);
+  };
+
+  const resolveImagePaths = (data) => {
+    return data.map((doctor) => ({
+      ...doctor,
+      imagen: new URL(`./assets/img/${doctor.imagen}`, import.meta.url).href,
+    }));
+  };
+
+  const resolvedTeamData = resolveImagePaths(teamData);
 
   return (
     <div className="App">
-      <div className="service-list-container">
-        <ServiceList
-          services={medicalServices}
-          onServiceSelect={handleServiceSelect}
-        />
-      </div>
+      <Navbar onSectionChange={handleSectionChange} />
 
-      <AppointmentForm
-        specialties={medicalServices}
-        doctors={resolvedTeamData}
-        onAppointmentSubmit={addAppointment}
-      />
+      {currentSection === "Home" && <h1>Bienvenido a la Clínica</h1>}
 
-      {appointments.length > 0 && (
-        <div className="appointments">
-          <h2>Citas Agendadas</h2>
-          <ul>
-            {appointments.map((appointment, index) => (
-              <li key={index}>
-                <strong>Paciente:</strong> {appointment.patientName} | <strong>Doctor:</strong> {appointment.doctor} | <strong>Fecha:</strong> {appointment.appointmentDate}
-              </li>
+      {currentSection === "Equipo Médico" && (
+        <div>
+          <h2>Equipo Médico</h2>
+          <div className="doctor-list">
+            {resolvedTeamData.map((doctor, index) => (
+              <DoctorCard key={index} doctor={doctor} />
             ))}
-          </ul>
+          </div>
         </div>
       )}
 
-      <h2>Equipo Médico</h2>
-      <React.Profiler id="DoctorList" onRender={(id, phase, actualDuration) => {
-        console.log(`Lista de doctores renderizada en ${actualDuration} ms en la fase ${phase}`);
-      }}>
-        <div className="doctor-list">
-          {resolvedTeamData.map((doctor, index) => (
-            <DoctorCard key={index} doctor={doctor} />
-          ))}
+
+      {currentSection === "Citas" && (
+        <div className="appointments-section">
+          <AppointmentForm
+            doctors={resolvedTeamData}
+            onAppointmentSubmit={(newAppointment) => console.log(newAppointment)}
+          />
         </div>
-      </React.Profiler>
+      )}
     </div>
   );
 };
 
-const AppWithProvider = () => (
-  <AppProvider>
-    <App />
-  </AppProvider>
-);
-
-export default AppWithProvider;
+export default App;
