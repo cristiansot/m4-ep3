@@ -39,7 +39,7 @@ const Testimonios = () => {
 
   return (
     <div className="container my-5">
-      <h2 className="text-center mb-4" style={{ color: "#5f6061" }}>Testimonios de Nuestros Pacientes</h2>
+      <h2 className="text-center mb-5" style={{ color: "#5f6061" }}>Testimonios de Nuestros Pacientes</h2>
       <Row>
         {testimoniosData.map((testimonio) => (
           <Col key={testimonio.id} sm={12} md={6} lg={4} className="mb-4 d-flex justify-content-center">

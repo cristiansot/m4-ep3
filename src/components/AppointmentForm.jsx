@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 import '../assets/css/form.css';
 
 const AppointmentForm = ({ doctors, onAppointmentSubmit }) => {
+  const patientNameRef = useRef(null); 
+
+  useEffect(() => {
+    if (patientNameRef.current) {
+      patientNameRef.current.focus(); 
+    }
+  }, []);
+
   const validationSchema = Yup.object({
     patientName: Yup.string()
       .required("El nombre del paciente es obligatorio")
@@ -17,7 +25,7 @@ const AppointmentForm = ({ doctors, onAppointmentSubmit }) => {
 
   return (
     <div className="formContainer">
-      <h2>Agendar Cita</h2>
+      <h2 style={{ marginTop: 40, padding: 20, color: "#5f6061" }}>Agendar Cita</h2>
       <Formik
         initialValues={{
           patientName: "",
@@ -39,6 +47,7 @@ const AppointmentForm = ({ doctors, onAppointmentSubmit }) => {
                 id="patientName"
                 name="patientName"
                 placeholder="Nombre completo"
+                innerRef={patientNameRef} 
               />
               <ErrorMessage
                 name="patientName"
@@ -74,7 +83,7 @@ const AppointmentForm = ({ doctors, onAppointmentSubmit }) => {
               />
             </div>
 
-            <button type="submit" disabled={isSubmitting}>
+            <button type="submit" disabled={isSubmitting} style={{ marginTop: 20, borderRadius: 10}}>
               Agendar
             </button>
           </Form>
