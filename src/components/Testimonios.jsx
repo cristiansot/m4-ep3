@@ -39,15 +39,15 @@ const Testimonios = () => {
 
   return (
     <div className="container my-5">
-      <h2 className="text-center mb-4">Testimonios de Nuestros Pacientes</h2>
+      <h2 className="text-center mb-4" style={{ color: "#5f6061" }}>Testimonios de Nuestros Pacientes</h2>
       <Row>
         {testimoniosData.map((testimonio) => (
           <Col key={testimonio.id} sm={12} md={6} lg={4} className="mb-4 d-flex justify-content-center">
-            <Card style={{ width: '20rem', borderColor: 'white' }}>
+            <Card style={{ width: '20rem', borderColor: 'white', color: "#444444" }}>
               <Card.Img variant="top" src={testimonio.img} style={{ borderRadius: 150 }} />
               <Card.Body>
                 <Card.Title>{testimonio.title}</Card.Title>
-                <Card.Text>
+                <Card.Text style={{ color: "#5f6061" }}>
                   {testimonio.text}
                   <br />
                   <b>{testimonio.author}</b>
