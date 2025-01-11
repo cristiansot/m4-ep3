@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
+import NavBar2 from "./components/NavBar2"; 
 import DoctorCard from "./components/DoctorCard";
 import AppointmentForm from "./components/AppointmentForm";
 import ServiceList from "./components/ServiceList";  
@@ -70,6 +71,7 @@ const App = () => {
 
       {currentSection === "Home" && (
         <>
+          <NavBar2 />
           <ServiceList 
             services={services} 
             onServiceSelect={handleServiceSelect}  
@@ -82,7 +84,7 @@ const App = () => {
           </p>
           <h2 style={{ color: "#5f6061"}}>Nuestra Misión</h2>
           <p>Nuestra Misión es entregar a la persona y a su familia una Atención de Salud Integral y de calidad que contribuya a su bienestar, respetando su dignidad, por equipos de gran calidad humana y excelencia profesional y académica.<br /></p>
-            <br />
+          <br />
           <h2 style={{ color: "#5f6061" }}>Nuestra Visión</h2>
           <p>Nuestra Visión es ser la Red de Salud líder en Latinoamérica en la práctica clínica de excelencia y en el desarrollo de conocimientos para el cuidado de la persona, en colaboración con otras instituciones nacionales y extranjeras.
           </p>
